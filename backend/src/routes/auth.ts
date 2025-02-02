@@ -60,7 +60,7 @@ authRouter.post("/login", async (req: Request<{}, {}, LoginBody>, res: Response)
         const isMatch = await bcryptjs.compare(password, existingUser.password);
 
         if (!isMatch) {
-            res.status(400).json({ msg: "Invalid credentials" });
+            res.status(400).json({ error: "Invalid credentials" });
             return;
         }
 
@@ -106,7 +106,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 authRouter.get("/", auth, async (req: AuthRequest, res) => {
     try {
         if (!req.user) {
-            res.status(401).json({ msg: "User not found!" });
+            res.status(401).json({ error: "User not found!" });
             return;
         }
 

@@ -14,14 +14,14 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
     try {
         const token = req.header("x-auth-token");
         if (!token) {
-            res.status(401).json({ msg: "Access denied" });
+            res.status(401).json({ error: "Access denied" });
             return;
         }
 
         const verified = jwt.verify(token, "passwordKey");
 
         if (!verified) {
-            res.status(401).json({ msg: "Token verification failed" });
+            res.status(401).json({ error: "Token verification failed" });
             return;
         }
 
@@ -30,7 +30,7 @@ export const auth = async (req: AuthRequest, res: Response, next: NextFunction) 
         const [user] = await db.select().from(users).where(eq(users.id, verifiedToken.id));
 
         if (!user) {
-            res.status(401).json({ msg: "User not found" });
+            res.status(401).json({ error: "User not found" });
             return;
         }
 
