@@ -3,16 +3,15 @@ import 'dart:convert';
 
 class UserModel {
   final String id;
-  final String name;
   final String email;
+  final String name;
   final String token;
   final DateTime createdAt;
   final DateTime updatedAt;
-
   UserModel({
     required this.id,
-    required this.name,
     required this.email,
+    required this.name,
     required this.token,
     required this.createdAt,
     required this.updatedAt,
@@ -20,16 +19,16 @@ class UserModel {
 
   UserModel copyWith({
     String? id,
-    String? name,
     String? email,
+    String? name,
     String? token,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
     return UserModel(
       id: id ?? this.id,
-      name: name ?? this.name,
       email: email ?? this.email,
+      name: name ?? this.name,
       token: token ?? this.token,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -39,19 +38,19 @@ class UserModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'name': name,
       'email': email,
+      'name': name,
       'token': token,
-      'createdAt': createdAt.millisecondsSinceEpoch,
-      'updatedAt': updatedAt.millisecondsSinceEpoch,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'] ?? '',
-      name: map['name'] ?? '',
       email: map['email'] ?? '',
+      name: map['name'] ?? '',
       token: map['token'] ?? '',
       createdAt: DateTime.parse(map['createdAt']),
       updatedAt: DateTime.parse(map['updatedAt']),
@@ -65,7 +64,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, token: $token, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserModel(id: $id, email: $email, name: $name, token: $token, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -73,8 +72,8 @@ class UserModel {
     if (identical(this, other)) return true;
 
     return other.id == id &&
-        other.name == name &&
         other.email == email &&
+        other.name == name &&
         other.token == token &&
         other.createdAt == createdAt &&
         other.updatedAt == updatedAt;
@@ -83,8 +82,8 @@ class UserModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        name.hashCode ^
         email.hashCode ^
+        name.hashCode ^
         token.hashCode ^
         createdAt.hashCode ^
         updatedAt.hashCode;

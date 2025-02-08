@@ -3,7 +3,13 @@ import 'package:frontend/core/constants/utils.dart';
 import 'package:intl/intl.dart';
 
 class DateSelector extends StatefulWidget {
-  const DateSelector({super.key});
+  final DateTime selectedDate;
+  final Function(DateTime) onTap;
+  const DateSelector({
+    super.key,
+    required this.selectedDate,
+    required this.onTap,
+  });
 
   @override
   State<DateSelector> createState() => _DateSelectorState();
@@ -11,13 +17,11 @@ class DateSelector extends StatefulWidget {
 
 class _DateSelectorState extends State<DateSelector> {
   int weekOffset = 0;
-  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
     final weekDates = generateWeekDates(weekOffset);
-    String monthName = DateFormat('MMMM').format(weekDates.first);
-
+    String monthName = DateFormat("MMMM").format(weekDates.first);
     return Column(
       children: [
         Padding(
@@ -62,16 +66,12 @@ class _DateSelectorState extends State<DateSelector> {
               itemCount: weekDates.length,
               itemBuilder: (context, index) {
                 final date = weekDates[index];
-                bool isSelected = DateFormat('d').format(selectedDate) ==
+                bool isSelected = DateFormat('d').format(widget.selectedDate) ==
                         DateFormat('d').format(date) &&
-                    selectedDate.month == date.month &&
-                    selectedDate.year == date.year;
+                    widget.selectedDate.month == date.month &&
+                    widget.selectedDate.year == date.year;
                 return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedDate = date;
-                    });
-                  },
+                  onTap: () => widget.onTap(date),
                   child: Container(
                     width: 70,
                     margin: const EdgeInsets.only(right: 8),
@@ -89,18 +89,16 @@ class _DateSelectorState extends State<DateSelector> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          DateFormat('d').format(date),
+                          DateFormat("d").format(date),
                           style: TextStyle(
                             color: isSelected ? Colors.white : Colors.black87,
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(
-                          height: 5,
-                        ),
+                        const SizedBox(height: 5),
                         Text(
-                          DateFormat('E').format(date),
+                          DateFormat("E").format(date),
                           style: TextStyle(
                             color: isSelected ? Colors.white : Colors.black87,
                             fontSize: 16,
